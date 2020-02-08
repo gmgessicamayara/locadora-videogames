@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="conteudo">
+
+		<p:growl id="mensagem" />
+
+		<h:form id="formulario">
+			<p:panel header="Locações Realizadas">
+				
+					<p:dataTable id="tabelaReserva" emptyMessage="Não há títulos alugados."
+					paginator="true" value="#{tituloLocacaoBean.locacoes}" var="titulo" paginatorPosition="bottom"
+					rows="3">
+				
+					<p:column headerText="Id">
+						<h:outputText value="#{titulo.id}" />
+					</p:column>
+					
+					<p:column headerText="Jogo">
+						<h:outputText value="#{titulo.jogo.nome}" />
+					</p:column>
+					
+					<p:column headerText="Plataforma">
+						<h:outputText value="#{titulo.jogo.console.nome}" />
+					</p:column>
+					
+					<p:column headerText="Genero">
+						<h:outputText value="#{titulo.jogo.genero.nome}" />
+					</p:column>
+					
+					<p:column headerText="Cliente">
+						<h:outputText value="#{titulo.locacao.cliente.nome}" />
+					</p:column>
+					
+					<p:column headerText="Data">
+						<h:outputText value="#{titulo.locacao.dataLocacao}">
+							<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy hh:ss"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Preço Total">
+						<h:outputText value="R$#{titulo.locacao.precoTotal}">
+							<f:convertNumber currencySymbol="R$" locale="pt_BR" minFractionDigits="2"/>
+						</h:outputText>
+					</p:column> 
+				</p:dataTable>
+				</p:panel>
+				
+				<p:panel header="Jogos para Devolução">
+				
+					<p:dataTable id="tabelaDevolucao" emptyMessage="Não há jogos alugados."
+					paginator="true" value="#{jogoBean.jogosAlugados}" var="jogo" paginatorPosition="bottom"
+					rows="3">
+				
+										
+					<p:column headerText="Jogo">
+						<h:outputText value="#{jogo.nome}" />
+					</p:column>
+					
+					<p:column headerText="Plataforma">
+						<h:outputText value="#{jogo.console.nome}" />
+					</p:column>
+					
+					<p:column headerText="Genero">
+						<h:outputText value="#{jogo.genero.nome}" />
+					</p:column>
+					
+					<p:column headerText="Opções">
+						<p:commandButton value="Devolver" icon="fa fa-minus-circle"
+							actionListener="#{jogoBean.devolver}"
+							update=":formulario:tabelaDevolucao :formulario:tabelaReserva">
+							<f:attribute name="jogoSelecionado" value="#{jogo}" />
+						</p:commandButton>
+
+					</p:column>
+				
+				</p:dataTable>
+				</p:panel>
+				</h:form>
+			 
+	</ui:define>
+</ui:composition>
+
+</html>

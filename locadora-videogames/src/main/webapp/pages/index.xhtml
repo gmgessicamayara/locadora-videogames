@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:outputScript library="js" name="script.js" />
+<h:outputStylesheet library="css" name="estilo.css"/>
+<ui:composition template="/templates/modeloGeral.xhtml">
+
+	<ui:define name="conteudo">
+<h:outputScript library="js" name="script.js" />
+<h:outputStylesheet library="css" name="estilo.css"/> 
+		<p:growl id="mensagem" />
+
+		<h:form id="formListagem">
+			<p:panel header=" ">
+
+
+
+			</p:panel>
+			<div onclick="trocaIcone();">
+			<p:stack icon="/resources/img/PC2.png" expanded="true" id="onOff" >
+				<p:menuitem value="Alugar&nbsp;Jogo" icon="/resources/img/game-controller.png"
+					url="/pages/reservas.xhtml" />
+				<p:menuitem value="Devolver&nbsp;Jogos" icon="/resources/img/game-controller2.png"
+					url="/pages/devolucao.xhtml" />
+			</p:stack>
+			</div>
+
+		</h:form>
+
+
+
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="conteudo">
+
+		<p:growl id="mensagem" />
+
+		<h:form id="formulario">
+			<p:panel header="Lista de Jogos Disponíveis">
+
+				<p:dataTable id="tabelaReserva"
+					emptyMessage="Todos os jogos foram alugados." paginator="true"
+					value="#{locacaoBean.listaJogos}" var="jogo"
+					paginatorPosition="bottom" rows="3">
+
+					<p:column headerText="Nome" filterBy="#{jogo.nome}"
+						sortBy="#{jogo.nome}">
+						<h:outputText value="#{jogo.nome}" />
+					</p:column>
+
+					<p:column headerText="Console" filterBy="#{jogo.console.nome}"
+						sortBy="#{jogo.console.nome}">
+						<h:outputText value="#{jogo.console.nome}" />
+					</p:column>
+
+					<p:column headerText="Genero" filterBy="#{jogo.genero.nome}"
+						sortBy="#{jogo.genero.nome}">
+						<h:outputText value="#{jogo.genero.nome}" />
+					</p:column>
+
+					<p:column headerText="Preço/Dia">
+						<h:outputText value="R$#{jogo.precoLocacao}" />
+					</p:column>
+
+					<p:column headerText="Opções">
+						<p:commandButton value="Selecionar" icon="fa fa-plus-circle"
+							actionListener="#{locacaoBean.adicionar}"
+							update=":formulario:tabelaReservaLocal :formulario:painelFinalizacao :formulario:tabelaReserva  ">
+							<f:attribute name="jogoSelecionado" value="#{jogo}" />
+					</p:commandButton>
+
+
+
+
+					</p:column>
+				</p:dataTable>
+
+
+			</p:panel>
+
+			<p:panel header="Jogos para Alugar">
+
+				<p:dataTable id="tabelaReservaLocal"
+					emptyMessage="Nenhum jogo selecionado."
+					value="#{locacaoBean.itensdaLocacao}" var="item" paginator="true"
+					paginatorPosition="bottom">
+
+					<p:column headerText="Nome">
+						<h:outputText value="#{item.jogo.nome}" />
+					</p:column>
+
+					<p:column headerText="Console">
+						<h:outputText value="#{item.jogo.console.nome}" />
+					</p:column>
+
+					<p:column headerText="Genero">
+						<h:outputText value="#{item.jogo.genero.nome}" />
+					</p:column>
+
+					<p:column headerText="Preço/Dia">
+						<h:outputText value="R$#{item.jogo.precoLocacao}">
+							<f:convertNumber locale="pt_BR" minFractionDigits="2"/>
+						</h:outputText>
+					</p:column>
+
+
+
+
+
+					<p:column headerText="Opções">
+						<p:commandButton value="Remover" icon="fa fa-minus-circle"
+							actionListener="#{locacaoBean.remover}"
+							update=":formulario:tabelaReservaLocal :formulario:painelFinalizacao :formulario:tabelaReserva">
+							<f:attribute name="jogoSelecionado" value="#{item}" />
+						</p:commandButton>
+
+					</p:column>
+	 <f:facet name="footer">
+      <h:outputText value="Valor Parcial: R$ #{locacaoBean.precoParcial}">
+      </h:outputText>
+    </f:facet>
+
+
+
+				</p:dataTable>
+
+			</p:panel>
+
+
+			<p:panel id="finalização" header="Alugar por:">
+
+				<p:panelGrid id="painelFinalizacao" columns="3">
+				
+					<p:selectOneMenu id="preco" value="#{locacaoBean.qtdDias}"
+							requiredMessage="Selecione a quantidade de dias">
+							
+							<f:selectItem itemValue="1" itemLabel="Um dia" />
+							<f:selectItem itemValue="2" itemLabel="Dois dias" />
+							<f:selectItem itemValue="3" itemLabel="Três dias" />
+					</p:selectOneMenu>
+				
+				
+					<p:commandButton value="Concluir"
+						oncomplete="PF('dialogo').show();"
+						actionListener="#{locacaoBean.finalizar}" icon="fa fa-paste"
+						update=":mensagem :formularioFinalizar:painelFinalizar">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+					<p:commandButton value="Cancelar" icon="fa fa-minus-circle"
+						action="/pages/index.xhtml" />
+
+				</p:panelGrid>
+			</p:panel>
+
+		</h:form>
+		<p:dialog header="Finalização" widgetVar="dialogo" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)" closable="false">
+			<h:form id="formularioFinalizar">
+				<p:panelGrid id="painelFinalizar" columns="2">
+					<p:outputLabel value="Data e Hora da Solicitação: " />
+					<h:outputText value="#{locacaoBean.locacao.dataLocacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" locale="pt_BR"
+							timeZone="America/Fortaleza" />
+					</h:outputText>
+
+					<p:outputLabel value="Preço Total: " />
+					<h:outputText value="R$ #{locacaoBean.locacao.precoTotal}" />
+
+					<p:outputLabel value="Cliente *" />
+					<p:selectOneMenu value="#{locacaoBean.locacao.cliente}"
+						converter="omnifaces.SelectItemsConverter" filter="true"
+						required="true" requiredMessage="Selecione um cliente">
+						<f:selectItem itemLabel="Selecione um cliente:"
+							noSelectionOption="true" />
+						<f:selectItems value="#{locacaoBean.clientes}" var="cliente"
+							itemValue="#{cliente}" itemLabel="#{cliente.nome}" />
+					</p:selectOneMenu>
+
+
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+					<p:commandButton value="Salvar"
+						actionListener="#{locacaoBean.salvar}" icon="fa fa-save"
+						update=":mensagem formulario:tabelaReserva :formulario:tabelaReservaLocal "
+						oncomplete="PF('dialogo').hide();" />
+					<p:commandButton value="Fechar" icon="fa fa-close"
+						oncomplete="PF('dialogo').hide();" />
+				</p:panelGrid>
+
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
+
+</html>

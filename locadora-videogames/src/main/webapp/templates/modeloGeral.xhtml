@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="estilo.css"/>
+<title>Locadora de Videogames</title>
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+		
+		<p:layoutUnit  header="Locadora de Videogames - APS: Disciplina: Desenvolvimento Web, Curso de Análise e Desenvolvimento de Sistemas" position="north" resizable="false" closable="false">
+
+		</p:layoutUnit>
+		
+		<p:layoutUnit id="footerEstilo" header="Desenvolvido por Géssica Mayara" position="south" resizable="false" closable="false" >
+					
+		</p:layoutUnit>
+		
+		<p:layoutUnit header="Menu" size="200" position="west" resizable="false" closable="false">
+		<h:form>	
+			<p:panelMenu>
+				<p:submenu label="Home" >
+					<p:menuitem icon="fa fa-home" value="Index" outcome="/pages/index.xhtml"/>
+					
+					
+				</p:submenu>
+					 
+				<p:submenu label="Gerenciamento">
+					  
+					<p:menuitem icon="fa fa-users" value="Clientes" outcome="/pages/clientes.xhtml"/> 
+					<p:menuitem icon="fa fa-cubes" value="Consoles" outcome="/pages/consoles.xhtml"/> 
+					<p:menuitem icon="fa fa-trophy" value="Generos" outcome="/pages/generos.xhtml"/> 
+				 	 <p:menuitem icon="fa fa-gamepad" value="Jogos" outcome="/pages/jogos.xhtml"/>
+					
+				</p:submenu>	
+				
+				<p:submenu label="Alugar e Devolver">
+					  
+					<p:menuitem icon="fa fa-smile-o" value="Alugar" outcome="/pages/reservas.xhtml"/> 
+					<p:menuitem icon="fa fa-meh-o" value="Devolver" outcome="/pages/devolucao.xhtml"/> 
+					 
+				</p:submenu>
+								
+			</p:panelMenu>
+		</h:form>	
+		</p:layoutUnit>
+		
+		<p:layoutUnit position="center" resizable="false" closable="false">
+			<ui:insert name="conteudo"></ui:insert>
+		
+		</p:layoutUnit>
+		
+		
+	
+	</p:layout>
+</h:body>
+</html>
